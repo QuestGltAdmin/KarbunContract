@@ -3,16 +3,11 @@ const { ethers, upgrades, network } = require("hardhat");
 const { Contract, Signer, BigNumber } = require('ethers')
 require('dotenv').config()
 
-const toKBNFracDenomination = (Karbun) =>
+const toKBNDenomination = (Karbun) =>
   ethers.utils.parseUnits(Karbun, DECIMALS)
 
 const DECIMALS = 18
 const INITIAL_SUPPLY = ethers.utils.parseUnits('10',14 + DECIMALS)
-const MAX_UINT256 = ethers.BigNumber.from(2).pow(256).sub(1)
-const TOTAL_FRACS = MAX_UINT256.sub(MAX_UINT256.mod(INITIAL_SUPPLY))
-
-const transferAmount = toKBNFracDenomination('10')
-const unitTokenAmount = toKBNFracDenomination('1')
 
 let accounts = Signer[15],
   deployer = Signer,
@@ -20,17 +15,11 @@ let accounts = Signer[15],
   initialSupply = BigNumber
 
 async function setupContracts() {
-  // prepare signers
   accounts = await ethers.getSigners()
   deployer = accounts[0]
-  // deploy upgradable token
-  // ERC20 
   const karbun = await ethers.getContractFactory("Karbun");
   const KarbunToken = await karbun.deploy();
-
   Karbun = await KarbunToken.deployed();
-
-  // fetch initial supply
   initialSupply = await KarbunToken.totalSupply()
 }
 
@@ -86,12 +75,12 @@ describe('Karbun:Transfer', function () {
       )
       await Karbun
         .connect(deployer)
-        .transfer(await provider.getAddress(), toKBNFracDenomination('10'))
+        .transfer(await provider.getAddress(), toKBNDenomination('10'))
       expect(await Karbun.balanceOf(await deployer.getAddress())).to.eq(
-        deployerBefore.sub(toKBNFracDenomination('10')),
+        deployerBefore.sub(toKBNDenomination('10')),
       )
       expect(await Karbun.balanceOf(await provider.getAddress())).to.eq(
-        toKBNFracDenomination('10'),
+        toKBNDenomination('10'),
       )
     })
   })
@@ -103,12 +92,12 @@ describe('Karbun:Transfer', function () {
       )
       await Karbun
         .connect(deployer)
-        .transfer(await UserA.getAddress(), toKBNFracDenomination('100'))
+        .transfer(await UserA.getAddress(), toKBNDenomination('100'))
       expect(await Karbun.balanceOf(await deployer.getAddress())).to.eq(
-        deployerBefore.sub(toKBNFracDenomination('100')),
+        deployerBefore.sub(toKBNDenomination('100')),
       )
       expect(await Karbun.balanceOf(await UserA.getAddress())).to.eq(
-        toKBNFracDenomination('100'),
+        toKBNDenomination('100'),
       )
     })
   })
@@ -121,12 +110,12 @@ describe('Karbun:Transfer', function () {
 
       await Karbun
         .connect(deployer)
-        .transfer(await UserB.getAddress(), toKBNFracDenomination('200'))
+        .transfer(await UserB.getAddress(), toKBNDenomination('200'))
       expect(await Karbun.balanceOf(await deployer.getAddress())).to.eq(
-        deployerBefore.sub(toKBNFracDenomination('200')),
+        deployerBefore.sub(toKBNDenomination('200')),
       )
       expect(await Karbun.balanceOf(await UserB.getAddress())).to.eq(
-        toKBNFracDenomination('200'),
+        toKBNDenomination('200'),
       )
     })
   })
@@ -141,12 +130,12 @@ describe('Karbun:Transfer', function () {
       )
       await Karbun
         .connect(provider)
-        .transfer(await deployer.getAddress(), toKBNFracDenomination('1'))
+        .transfer(await deployer.getAddress(), toKBNDenomination('1'))
       expect(await Karbun.balanceOf(await provider.getAddress())).to.eq(
-        providerBefore.sub(toKBNFracDenomination('1')),
+        providerBefore.sub(toKBNDenomination('1')),
       )
       expect(await Karbun.balanceOf(await deployer.getAddress())).to.eq(
-        deployerBefore.add(toKBNFracDenomination('1')),
+        deployerBefore.add(toKBNDenomination('1')),
       )
     })
   })
