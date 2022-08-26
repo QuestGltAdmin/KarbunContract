@@ -1,0 +1,44 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/hp/Aashish/Quest/Carbon Coin/Karbun Contract setup/contracts/Karbun Contract.sol": {
+      "lastModificationDate": 1661496642920,
+      "contentHash": "f9551e51e2d20f35afadab04d20dbc83",
+      "sourceName": "contracts/Karbun Contract.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.10"
+      ],
+      "artifacts": [
+        "Context",
+        "IBEP20",
+        "Karbun",
+        "Ownable",
+        "SafeMath"
+      ]
+    }
+  }
+}
